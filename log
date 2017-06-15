@@ -222,3 +222,192 @@ INFO:tensorflow:Finished evaluation at 2017-06-14-09:41:46
 INFO:tensorflow:Saving dict for global step 20000: accuracy = 0.972, global_step = 20000, loss = 0.0957721
 WARNING:tensorflow:Skipping summary for global_step, must be a float or np.float32.
 {'loss': 0.095772132, 'accuracy': 0.972, 'global_step': 20000}
+
+
+*********************************************************************************************************
+3 conv + 3 pool + 3 FC, same batch size -> ran out of memory
+[ 0.00025448  0.00002089  0.00007397  0.01755062  0.00019522  0.97058421
+  0.00290558  0.0000006   0.00815061  0.00026372]] (3.087 sec)
+INFO:tensorflow:Saving checkpoints for 20001 into /tmp/mnist_convnet_model/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.105971.
+WARNING:tensorflow:From mnist_cnn_layer.py:147: calling evaluate (from tensorflow.contrib.learn.python.learn.estimators.estimator) with y is deprecated and will be removed after 2016-12-01.
+Instructions for updating:
+Estimator is decoupled from Scikit Learn interface by moving into
+separate class SKCompat. Arguments x, y and batch_size are only
+available in the SKCompat class, Estimator will only accept input_fn.
+Example conversion:
+ est = Estimator(...) -> est = SKCompat(Estimator(...))
+WARNING:tensorflow:From mnist_cnn_layer.py:147: calling evaluate (from tensorflow.contrib.learn.python.learn.estimators.estimator) with x is deprecated and will be removed after 2016-12-01.
+Instructions for updating:
+Estimator is decoupled from Scikit Learn interface by moving into
+separate class SKCompat. Arguments x, y and batch_size are only
+available in the SKCompat class, Estimator will only accept input_fn.
+Example conversion:
+ est = Estimator(...) -> est = SKCompat(Estimator(...))
+INFO:tensorflow:Starting evaluation at 2017-06-15-14:12:29
+2017-06-15 17:12:29.099495: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 650, pci bus id: 0000:01:00.0)
+INFO:tensorflow:Restoring parameters from /tmp/mnist_convnet_model/model.ckpt-20001
+2017-06-15 17:12:39.168086: W tensorflow/core/common_runtime/bfc_allocator.cc:273] Allocator (GPU_0_bfc) ran out of memory trying to allocate 957.03MiB.  Current allocation summary follows.
+2017-06-15 17:12:39.168119: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (256): 	Total Chunks: 1, Chunks in use: 0 256B allocated for chunks. 4B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168127: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (512): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168135: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (1024): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168142: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (2048): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168149: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (4096): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168157: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (8192): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168162: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (16384): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168168: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (32768): 	Total Chunks: 1, Chunks in use: 0 39.5KiB allocated for chunks. 4B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168174: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (65536): 	Total Chunks: 1, Chunks in use: 0 119.2KiB allocated for chunks. 1B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168178: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (131072): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168183: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (262144): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168188: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (524288): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168192: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (1048576): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168196: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (2097152): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168201: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (4194304): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168207: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (8388608): 	Total Chunks: 1, Chunks in use: 0 11.87MiB allocated for chunks. 4B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168212: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (16777216): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168217: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (33554432): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168221: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (67108864): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168226: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (134217728): 	Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168231: I tensorflow/core/common_runtime/bfc_allocator.cc:643] Bin (268435456): 	Total Chunks: 1, Chunks in use: 0 287.75MiB allocated for chunks. 4B client-requested for chunks. 0B in use in bin. 0B client-requested in use in bin.
+2017-06-15 17:12:39.168237: I tensorflow/core/common_runtime/bfc_allocator.cc:660] Bin for 957.03MiB was 256.00MiB, Chunk State:
+2017-06-15 17:12:39.168245: I tensorflow/core/common_runtime/bfc_allocator.cc:666]   Size: 287.75MiB | Requested Size: 4B | in_use: 0, prev:   Size: 29.91MiB | Requested Size: 29.91MiB | in_use: 1
+2017-06-15 17:12:39.168251: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0000 of size 1280
+2017-06-15 17:12:39.168255: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0500 of size 1280
+2017-06-15 17:12:39.168258: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0a00 of size 256
+2017-06-15 17:12:39.168262: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0b00 of size 256
+2017-06-15 17:12:39.168265: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0c00 of size 256
+2017-06-15 17:12:39.168269: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0d00 of size 256
+2017-06-15 17:12:39.168272: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0e00 of size 256
+2017-06-15 17:12:39.168276: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba0f00 of size 256
+2017-06-15 17:12:39.168279: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1000 of size 256
+2017-06-15 17:12:39.168282: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1100 of size 256
+2017-06-15 17:12:39.168286: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1200 of size 256
+2017-06-15 17:12:39.168289: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1300 of size 256
+2017-06-15 17:12:39.168293: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1400 of size 256
+2017-06-15 17:12:39.168296: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1500 of size 256
+2017-06-15 17:12:39.168300: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1600 of size 256
+2017-06-15 17:12:39.168303: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1700 of size 256
+2017-06-15 17:12:39.168306: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1800 of size 256
+2017-06-15 17:12:39.168310: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1900 of size 256
+2017-06-15 17:12:39.168314: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba1a00 of size 3328
+2017-06-15 17:12:39.168317: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba2700 of size 256
+2017-06-15 17:12:39.168321: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500ba2800 of size 256
+2017-06-15 17:12:39.168324: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500bac700 of size 4096
+2017-06-15 17:12:39.168328: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500bad700 of size 40960
+2017-06-15 17:12:39.168331: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500bb7700 of size 256
+2017-06-15 17:12:39.168335: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500bb7900 of size 256
+2017-06-15 17:12:39.168338: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500bd5700 of size 204800
+2017-06-15 17:12:39.168342: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x500c07700 of size 400128
+2017-06-15 17:12:39.168345: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x501847700 of size 12845056
+2017-06-15 17:12:39.168349: I tensorflow/core/common_runtime/bfc_allocator.cc:678] Chunk at 0x502487700 of size 31360000
+2017-06-15 17:12:39.168353: I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x500ba2900 of size 40448
+2017-06-15 17:12:39.168356: I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x500bb7800 of size 256
+2017-06-15 17:12:39.168360: I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x500bb7a00 of size 122112
+2017-06-15 17:12:39.168364: I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x500c69200 of size 12444928
+2017-06-15 17:12:39.168367: I tensorflow/core/common_runtime/bfc_allocator.cc:687] Free at 0x50426fb00 of size 301729024
+2017-06-15 17:12:39.168371: I tensorflow/core/common_runtime/bfc_allocator.cc:693]      Summary of in-use Chunks by size:
+2017-06-15 17:12:39.168376: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 20 Chunks of size 256 totalling 5.0KiB
+2017-06-15 17:12:39.168380: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 2 Chunks of size 1280 totalling 2.5KiB
+2017-06-15 17:12:39.168384: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 3328 totalling 3.2KiB
+2017-06-15 17:12:39.168388: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 4096 totalling 4.0KiB
+2017-06-15 17:12:39.168393: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 40960 totalling 40.0KiB
+2017-06-15 17:12:39.168397: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 204800 totalling 200.0KiB
+2017-06-15 17:12:39.168402: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 400128 totalling 390.8KiB
+2017-06-15 17:12:39.168406: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 12845056 totalling 12.25MiB
+2017-06-15 17:12:39.168410: I tensorflow/core/common_runtime/bfc_allocator.cc:696] 1 Chunks of size 31360000 totalling 29.91MiB
+2017-06-15 17:12:39.168415: I tensorflow/core/common_runtime/bfc_allocator.cc:700] Sum Total of in-use chunks: 42.79MiB
+2017-06-15 17:12:39.168421: I tensorflow/core/common_runtime/bfc_allocator.cc:702] Stats:
+Limit:                   359202816
+InUse:                    44866048
+MaxInUse:                133534976
+NumAllocs:                 1501313
+MaxAllocSize:             88576000
+
+2017-06-15 17:12:39.168429: W tensorflow/core/common_runtime/bfc_allocator.cc:277] *__**************___________________________________________________________________________________
+2017-06-15 17:12:39.168441: W tensorflow/core/framework/op_kernel.cc:1152] Resource exhausted: OOM when allocating tensor with shape[10000,28,28,32]
+Traceback (most recent call last):
+ File "mnist_cnn_layer.py", line 152, in <module>
+   tf.app.run()
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 48, in run
+   _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+ File "mnist_cnn_layer.py", line 147, in main
+   x=eval_data, y=eval_labels, metrics=metrics)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/util/deprecation.py", line 281, in new_func
+   return func(*args, **kwargs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 505, in evaluate
+   return SKCompat(self).score(x, y, batch_size, steps, metrics)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 1332, in score
+   name='score')
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 828, in _evaluate_model
+   config=config_pb2.ConfigProto(allow_soft_placement=True))
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/training/evaluation.py", line 182, in _evaluate_once
+   session.run(eval_ops, feed_dict)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 484, in run
+   run_metadata=run_metadata)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 820, in run
+   run_metadata=run_metadata)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 776, in run
+   return self._sess.run(*args, **kwargs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 930, in run
+   run_metadata=run_metadata)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 776, in run
+   return self._sess.run(*args, **kwargs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 778, in run
+   run_metadata_ptr)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 982, in _run
+   feed_dict_string, options, run_metadata)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1032, in _do_run
+   target_list, options, run_metadata)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1052, in _do_call
+   raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.ResourceExhaustedError: OOM when allocating tensor with shape[10000,28,28,32]
+  [[Node: conv2d/convolution = Conv2D[T=DT_FLOAT, data_format="NHWC", padding="SAME", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device="/job:localhost/replica:0/task:0/gpu:0"](Reshape, conv2d/kernel/read)]]
+
+Caused by op u'conv2d/convolution', defined at:
+ File "mnist_cnn_layer.py", line 152, in <module>
+   tf.app.run()
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 48, in run
+   _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+ File "mnist_cnn_layer.py", line 147, in main
+   x=eval_data, y=eval_labels, metrics=metrics)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/util/deprecation.py", line 281, in new_func
+   return func(*args, **kwargs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 505, in evaluate
+   return SKCompat(self).score(x, y, batch_size, steps, metrics)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 1332, in score
+   name='score')
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 804, in _evaluate_model
+   eval_dict = self._get_eval_ops(features, labels, metrics).eval_metric_ops
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 1160, in _get_eval_ops
+   features, labels, model_fn_lib.ModeKeys.EVAL)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/contrib/learn/python/learn/estimators/estimator.py", line 1103, in _call_model_fn
+   model_fn_results = self._model_fn(features, labels, **kwargs)
+ File "mnist_cnn_layer.py", line 36, in cnn_model_fn
+   activation=tf.nn.relu)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/layers/convolutional.py", line 511, in conv2d
+   return layer.apply(inputs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/layers/base.py", line 320, in apply
+   return self.__call__(inputs, **kwargs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/layers/base.py", line 290, in __call__
+   outputs = self.call(inputs, **kwargs)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/layers/convolutional.py", line 156, in call
+   data_format=utils.convert_data_format(self.data_format, self.rank + 2))
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/ops/nn_ops.py", line 661, in convolution
+   op=op)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/ops/nn_ops.py", line 331, in with_space_to_batch
+   return op(input, num_spatial_dims, padding)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/ops/nn_ops.py", line 653, in op
+   name=name)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/ops/nn_ops.py", line 129, in _non_atrous_convolution
+   name=name)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/ops/gen_nn_ops.py", line 403, in conv2d
+   data_format=data_format, name=name)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 768, in apply_op
+   op_def=op_def)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2336, in create_op
+   original_op=self._default_original_op, op_def=op_def)
+ File "/home/lhuynh/tfgpu/local/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1228, in __init__
+   self._traceback = _extract_stack()
+
+ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[10000,28,28,32]
+  [[Node: conv2d/convolution = Conv2D[T=DT_FLOAT, data_format="NHWC", padding="SAME", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device="/job:localhost/replica:0/task:0/gpu:0"](Reshape, conv2d/kernel/read)]]
