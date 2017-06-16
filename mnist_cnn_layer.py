@@ -110,7 +110,7 @@ def cnn_model_fn(features, labels, mode):
 
 
 def main(unused_argv):
-  
+
   with tf.device('/gpu:7'):
 
   	# Load training and eval data
@@ -131,19 +131,9 @@ def main(unused_argv):
       		tensors=tensors_to_log, every_n_iter=50)
 
   	# Train the model
-  	#mnist_classifier.fit(
-	#      x=train_data,
-	#      y=train_labels,
-	#      batch_size=100,
-	#      steps=20000,
-	#      monitors=[logging_hook])
 	mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
-	
-	metrics = {
-      			"accuracy":
-          		learn.MetricSpec(
-              		metric_fn=tf.metrics.accuracy, prediction_key="classes"),
-  		}
+
+	metrics = { "accuracy": learn.MetricSpec( metric_fn=tf.metrics.accuracy, prediction_key="classes"), }
 
   	# Evaluate the model and print results
   	#eval_results = mnist_classifier.evaluate(
