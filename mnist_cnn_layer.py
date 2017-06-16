@@ -110,46 +110,50 @@ def cnn_model_fn(features, labels, mode):
 
 
 def main(unused_argv):
-  # Load training and eval data
-  mnist = learn.datasets.load_dataset("mnist")
-  train_data = mnist.train.images  # Returns np.array
-  train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
-  eval_data = mnist.test.images  # Returns np.array
-  eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
+  
+  with tf.device('/gpu:7'):
 
-  # Create the Estimator
-  mnist_classifier = learn.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/mnist_convnet_model")
+  	# Load training and eval data
+ 	mnist = learn.datasets.load_dataset("mnist")
+  	train_data = mnist.train.images  # Returns np.array
+  	train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
+  	eval_data = mnist.test.images  # Returns np.array
+  	eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
 
-  # Set up logging for predictions
-  # Log the values in the "Softmax" tensor with label "probabilities"
-  tensors_to_log = {"probabilities": "softmax_tensor"}
-  logging_hook = tf.train.LoggingTensorHook(
-      tensors=tensors_to_log, every_n_iter=50)
+  	# Create the Estimator
+  	mnist_classifier = learn.Estimator(
+      		model_fn=cnn_model_fn, model_dir="/tmp/mnist_convnet_model")
 
-  # Train the model
-  #mnist_classifier.fit(
-#      x=train_data,
-#      y=train_labels,
-#      batch_size=100,
-#      steps=20000,
-#      monitors=[logging_hook])
-  with tf.device('/gpu:0'):
-      config = tf.ConfigProto()
-      config.gpu_options.per_process_gpu_memory_fraction = 0.5
-      session = tf.Session(config=config)
-  session.run( mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook]) )
+  	# Set up logging for predictions
+  	# Log the values in the "Softmax" tensor with label "probabilities"
+  	tensors_to_log = {"probabilities": "softmax_tensor"}
+  	logging_hook = tf.train.LoggingTensorHook(
+      		tensors=tensors_to_log, every_n_iter=50)
 
-  # Configure the accuracy metric for evaluation
-  metrics = {
-      "accuracy":
-          learn.MetricSpec(
-              metric_fn=tf.metrics.accuracy, prediction_key="classes"),
-  }
+  	# Train the model
+  	#mnist_classifier.fit(
+	#      x=train_data,
+	#      y=train_labels,
+	#      batch_size=100,
+	#      steps=20000,
+	#      monitors=[logging_hook])
+	mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
+	
+	metrics = {
+      			"accuracy":
+          		learn.MetricSpec(
+              		metric_fn=tf.metrics.accuracy, prediction_key="classes"),
+  		}
 
-  # Evaluate the model and print results
-  eval_results = mnist_classifier.evaluate(
-      x=eval_data, y=eval_labels, metrics=metrics)
+  	# Evaluate the model and print results
+  	#eval_results = mnist_classifier.evaluate(
+      	#	x=eval_data, y=eval_labels, metrics=metrics)
+
+  # Creates a session with log_device_placement set to True.
+  sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+
+  sess.run( eval_results = mnist_classifier.evaluate(
+      		x=eval_data, y=eval_labels, metrics=metrics) )
   print(eval_results)
 
 
