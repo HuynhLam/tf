@@ -128,12 +128,17 @@ def main(unused_argv):
       tensors=tensors_to_log, every_n_iter=50)
 
   # Train the model
-  mnist_classifier.fit(
-      x=train_data,
-      y=train_labels,
-      batch_size=100,
-      steps=20000,
-      monitors=[logging_hook])
+  #mnist_classifier.fit(
+#      x=train_data,
+#      y=train_labels,
+#      batch_size=100,
+#      steps=20000,
+#      monitors=[logging_hook])
+  with tf.device('/gpu:0'):
+      config = tf.ConfigProto()
+      config.gpu_options.per_process_gpu_memory_fraction = 0.5
+      session = tf.Session(config=config)
+  session.run( mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook]) )
 
   # Configure the accuracy metric for evaluation
   metrics = {
