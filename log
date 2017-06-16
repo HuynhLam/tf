@@ -411,3 +411,48 @@ Caused by op u'conv2d/convolution', defined at:
 
 ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[10000,28,28,32]
   [[Node: conv2d/convolution = Conv2D[T=DT_FLOAT, data_format="NHWC", padding="SAME", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _device="/job:localhost/replica:0/task:0/gpu:0"](Reshape, conv2d/kernel/read)]]
+
+*********************************************2017-06-17 02:06:41***************************************************************************************
+cse-cn0011: 8 x Tesla K80
+Device mapping:
+/job:localhost/replica:0/task:0/gpu:0 -> device: 0, name: Tesla K80, pci bus id: 0000:05:00.0
+/job:localhost/replica:0/task:0/gpu:1 -> device: 1, name: Tesla K80, pci bus id: 0000:06:00.0
+/job:localhost/replica:0/task:0/gpu:2 -> device: 2, name: Tesla K80, pci bus id: 0000:09:00.0
+/job:localhost/replica:0/task:0/gpu:3 -> device: 3, name: Tesla K80, pci bus id: 0000:0a:00.0
+/job:localhost/replica:0/task:0/gpu:4 -> device: 4, name: Tesla K80, pci bus id: 0000:84:00.0
+/job:localhost/replica:0/task:0/gpu:5 -> device: 5, name: Tesla K80, pci bus id: 0000:85:00.0
+/job:localhost/replica:0/task:0/gpu:6 -> device: 6, name: Tesla K80, pci bus id: 0000:88:00.0
+/job:localhost/replica:0/task:0/gpu:7 -> device: 7, name: Tesla K80, pci bus id: 0000:89:00.0
+2017-06-17 02:06:41.057137: I tensorflow/core/common_runtime/direct_session.cc:265] Device mapping:
+/job:localhost/replica:0/task:0/gpu:0 -> device: 0, name: Tesla K80, pci bus id: 0000:05:00.0
+/job:localhost/replica:0/task:0/gpu:1 -> device: 1, name: Tesla K80, pci bus id: 0000:06:00.0
+/job:localhost/replica:0/task:0/gpu:2 -> device: 2, name: Tesla K80, pci bus id: 0000:09:00.0
+/job:localhost/replica:0/task:0/gpu:3 -> device: 3, name: Tesla K80, pci bus id: 0000:0a:00.0
+/job:localhost/replica:0/task:0/gpu:4 -> device: 4, name: Tesla K80, pci bus id: 0000:84:00.0
+/job:localhost/replica:0/task:0/gpu:5 -> device: 5, name: Tesla K80, pci bus id: 0000:85:00.0
+/job:localhost/replica:0/task:0/gpu:6 -> device: 6, name: Tesla K80, pci bus id: 0000:88:00.0
+/job:localhost/replica:0/task:0/gpu:7 -> device: 7, name: Tesla K80, pci bus id: 0000:89:00.0
+
+MatMul: (MatMul): /job:localhost/replica:0/task:0/gpu:0
+2017-06-17 02:06:41.059001: I tensorflow/core/common_runtime/simple_placer.cc:847] MatMul: (MatMul)/job:localhost/replica:0/task:0/gpu:0
+b: (Const): /job:localhost/replica:0/task:0/gpu:0
+2017-06-17 02:06:41.059040: I tensorflow/core/common_runtime/simple_placer.cc:847] b: (Const)/job:localhost/replica:0/task:0/gpu:0
+a: (Const): /job:localhost/replica:0/task:0/gpu:0
+2017-06-17 02:06:41.059070: I tensorflow/core/common_runtime/simple_placer.cc:847] a: (Const)/job:localhost/replica:0/task:0/gpu:0
+[[ 22.  28.]
+ [ 49.  64.]]
+
+ cse-cn0003: Tesla K20m
+ Device mapping:
+/job:localhost/replica:0/task:0/gpu:0 -> device: 0, name: Tesla K20m, pci bus id: 0000:04:00.0
+2017-06-17 02:14:42.201600: I tensorflow/core/common_runtime/direct_session.cc:265] Device mapping:
+/job:localhost/replica:0/task:0/gpu:0 -> device: 0, name: Tesla K20m, pci bus id: 0000:04:00.0
+
+MatMul: (MatMul): /job:localhost/replica:0/task:0/gpu:0
+2017-06-17 02:14:42.202574: I tensorflow/core/common_runtime/simple_placer.cc:847] MatMul: (MatMul)/job:localhost/replica:0/task:0/gpu:0
+b: (Const): /job:localhost/replica:0/task:0/gpu:0
+2017-06-17 02:14:42.202604: I tensorflow/core/common_runtime/simple_placer.cc:847] b: (Const)/job:localhost/replica:0/task:0/gpu:0
+a: (Const): /job:localhost/replica:0/task:0/gpu:0
+2017-06-17 02:14:42.202628: I tensorflow/core/common_runtime/simple_placer.cc:847] a: (Const)/job:localhost/replica:0/task:0/gpu:0
+[[ 22.  28.]
+ [ 49.  64.]]
