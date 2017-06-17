@@ -120,30 +120,24 @@ def main(unused_argv):
   	eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
 
   	# Create the Estimator
-  	mnist_classifier = learn.Estimator(
-      		model_fn=cnn_model_fn, model_dir="/tmp/mnist_convnet_model")
+  	mnist_classifier = learn.Estimator(model_fn=cnn_model_fn, model_dir="/tmp/mnist_convnet_model")
 
   	# Set up logging for predictions
   	# Log the values in the "Softmax" tensor with label "probabilities"
   	tensors_to_log = {"probabilities": "softmax_tensor"}
-  	logging_hook = tf.train.LoggingTensorHook(
-      		tensors=tensors_to_log, every_n_iter=50)
+  	logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
 
   	# Train the model
 	mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
-
 	metrics = { "accuracy": learn.MetricSpec( metric_fn=tf.metrics.accuracy, prediction_key="classes"), }
 
   	# Evaluate the model and print results
-  	#eval_results = mnist_classifier.evaluate(
-      	#	x=eval_data, y=eval_labels, metrics=metrics)
+    eval_results = mnist_classifier.evaluate(x=eval_data, y=eval_labels, metrics=metrics)
 
   # Creates a session with log_device_placement set to True.
   sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-  eval_results = mnist_classifier.evaluate(x=eval_data, y=eval_labels, metrics=metrics)
-
-  sess.run(  )
-  print(eval_results)
+  # Run session
+  print(sess.run(eval_results))
 
 
 if __name__ == "__main__":
