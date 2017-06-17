@@ -112,7 +112,6 @@ def cnn_model_fn(features, labels, mode):
 def main(unused_argv):
 
   with tf.device('/gpu:7'):
-
   	# Load training and eval data
  	mnist = learn.datasets.load_dataset("mnist")
   	train_data = mnist.train.images  # Returns np.array
@@ -141,9 +140,9 @@ def main(unused_argv):
 
   # Creates a session with log_device_placement set to True.
   sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+  eval_results = mnist_classifier.evaluate(x=eval_data, y=eval_labels, metrics=metrics)
 
-  sess.run( eval_results = mnist_classifier.evaluate(
-      		x=eval_data, y=eval_labels, metrics=metrics) )
+  sess.run(  )
   print(eval_results)
 
 
