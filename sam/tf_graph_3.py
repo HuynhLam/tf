@@ -69,6 +69,11 @@ run_graph([6, 3])
 run_graph([0, 2])
 run_graph([4, 5, 6])
 
+# Write the summaries to disk
 writer.flush()
+
+# Close FileWriter after use
 writer.close()
+
+# Close session
 sess.close()
