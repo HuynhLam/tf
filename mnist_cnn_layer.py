@@ -111,7 +111,7 @@ def cnn_model_fn(features, labels, mode):
 
 def main(unused_argv):
 
-    with tf.device('/gpu:7'):
+    with tf.device('/cpu:0'):
         # Load training and eval data
         mnist = learn.datasets.load_dataset("mnist")
         train_data = mnist.train.images  # Returns np.array
@@ -126,18 +126,19 @@ def main(unused_argv):
         # Log the values in the "Softmax" tensor with label "probabilities"
         tensors_to_log = {"probabilities": "softmax_tensor"}
         logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
-
         # Train the model
-        mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
+        mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=200, monitors=[logging_hook])
+        # Configure the accuracy metric for evaluation
         metrics = { "accuracy": learn.MetricSpec( metric_fn=tf.metrics.accuracy, prediction_key="classes"), }
-
         # Evaluate the model and print results
         eval_results = mnist_classifier.evaluate(x=eval_data, y=eval_labels, metrics=metrics)
 
     # Creates a session with log_device_placement set to True.
-    sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+    #sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
     # Run session
-    print(sess.run(eval_results))
+    #sess.run([])
+
+    print(eval_results)
 
 
 if __name__ == "__main__":
