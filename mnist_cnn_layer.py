@@ -95,7 +95,7 @@ def cnn_model_fn(features, labels, mode):
 
     with tf.device('/gpu:2'):
         my_config = tf.ConfigProto()
-        my_config.gpu_options.per_process_gpu_memory_fraction = 0.5
+        #my_config.gpu_options.per_process_gpu_memory_fraction = 0.5
         my_config.gpu_options.allow_growth = True
     sess = tf.Session(config=my_config)
     sess.run([])
