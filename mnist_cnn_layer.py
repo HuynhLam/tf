@@ -94,7 +94,7 @@ def cnn_model_fn(features, labels, mode):
         model = model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=loss, train_op=train_op)
 
     my_config = tf.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = 0.5
+    my_config.gpu_options.per_process_gpu_memory_fraction = 0.5
     sess = tf.Session(config=my_config)
     sess.run([])
 
