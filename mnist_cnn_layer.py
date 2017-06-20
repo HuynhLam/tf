@@ -16,7 +16,6 @@ from tensorflow.contrib.learn.python.learn.estimators import model_fn as model_f
 tf.logging.set_verbosity(tf.logging.INFO)
 
 def cnn_model_fn(features, labels, mode):
-
     with tf.device('/gpu:2'):
         """Model function for CNN."""
         # Input Layer
@@ -89,12 +88,12 @@ def cnn_model_fn(features, labels, mode):
         predictions = {
                         "classes": tf.argmax(
                         input=logits, axis=1),
-                        "probabilities": tf.nn.softmax(
+                        "probapredictionsbilities": tf.nn.softmax(
                         logits, name="softmax_tensor") }
 
         model = model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=loss, train_op=train_op)
 
-    sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+    sess = tf.Session(config=tf.ConfigProto(log_device_placement=False))
     sess.run([])
 
     # Return a ModelFnOps object
