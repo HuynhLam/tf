@@ -94,7 +94,7 @@ def cnn_model_fn(features, labels, mode):
 
     model = model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=loss, train_op=train_op)
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = "2,3"
+    os.environ['CUDA_VISIBLE_DEVICES'] = "2"
     my_config = tf.ConfigProto()
     #my_config.gpu_options.per_process_gpu_memory_fraction = 0.5
     #my_config.gpu_options.allow_growth = True
@@ -122,7 +122,7 @@ def main(unused_argv):
     tensors_to_log = {"probabilities": "softmax_tensor"}
     logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
     # Train the model
-    mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
+    mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=5000, monitors=[logging_hook])
     # Configure the accuracy metric for evaluation
     metrics = { "accuracy": learn.MetricSpec( metric_fn=tf.metrics.accuracy, prediction_key="classes"), }
     # Evaluate the model and print results
