@@ -122,7 +122,7 @@ def main(unused_argv):
     tensors_to_log = {"probabilities": "softmax_tensor"}
     logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
     # Train the model
-    mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=200, monitors=[logging_hook])
+    mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
     # Configure the accuracy metric for evaluation
     metrics = { "accuracy": learn.MetricSpec( metric_fn=tf.metrics.accuracy, prediction_key="classes"), }
     # Evaluate the model and print results
