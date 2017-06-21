@@ -1,15 +1,30 @@
 import os
 import os.path
 import shutil
+import time
+
+import numpy as np
 import tensorflow as tf
 import tensorflow.contrib.learn as learn
-import time
+import keras
+
+from keras.models import Sequential
+from keras.datasets import mnist
+from keras.utils import np_utils
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Convolution2D, MaxPooling2D
+
+# run on 'gpu:2'
+os.environ['CUDA_VISIBLE_DEVICES'] = "2"
 
 # For embedding GUI
 LABELS = os.path.join(os.getcwd(), "labels_1024.tsv")
 SPRITES = os.path.join(os.getcwd(), "sprite_1024.png")
 # Load mnist datasets
-mnist = learn.datasets.mnist.read_data_sets("mnist", one_hot=True)
+mnist_data = learn.datasets.mnist.read_data_sets("mnist", one_hot=True)
+
+# callbacks
+callbacks = keras.callbacks.TensorBoard(log_dir='./graph/keras,conv=2,fc=2', write_graph=True)
 
 
 def conv_layer(input, size_in, size_out, name="conv"):
@@ -36,8 +51,6 @@ def fc_layer(input, size_in, size_out, name="fc"):
 
 
 def mnist_model(learning_rate, use_two_fc, use_two_conv, hparam):
-    # run on 'gpu:2'
-    os.environ['CUDA_VISIBLE_DEVICES'] = "2"
     tf.reset_default_graph()
     sess = tf.Session()
 
@@ -103,13 +116,13 @@ def mnist_model(learning_rate, use_two_fc, use_two_conv, hparam):
     embedding_config.sprite.single_image_dim.extend([28, 28])
     tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)
 
-    for i in range(2001):
-        batch = mnist.train.next_batch(100)
+    for i in range(21):
+        batch = mnist_data.train.next_batch(90)
         if i % 5 == 0:
             [train_accuracy, s] = sess.run([accuracy, summ], feed_dict={x: batch[0], y: batch[1]})
             writer.add_summary(s, i)
         if i % 500 == 0:
-            sess.run(assignment, feed_dict={x: mnist.test.images[:1024], y: mnist.test.labels[:1024]})
+            sess.run(assignment, feed_dict={x: mnist_data.test.images[:1024], y: mnist_data.test.labels[:1024]})
             saver.save(sess, os.path.join("graph/", "model.ckpt"), i)
         sess.run(train_step, feed_dict={x: batch[0], y: batch[1]})
 
@@ -118,8 +131,58 @@ def make_hparam_string(learning_rate, use_two_fc, use_two_conv):
     fc_param = "fc=2" if use_two_fc else "fc=1"
     return "lr_%.0E,%s,%s" % (learning_rate, conv_param, fc_param)
 
+def keras_mnist_model():
+    #tf.reset_default_graph()
+    #sess = tf.Session()
+    # Load MNIST data from keras, different from tensorflow, 60k train + 10k test
+    (X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+    # Preprocess input data
+    X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
+    X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
+    X_train = X_train.astype('float32')
+    X_test = X_test.astype('float32')
+    X_train /= 255
+    X_test /= 255
+
+    # Map test data vector to labels
+    Y_train = np_utils.to_categorical(y_train, 10)
+    Y_test = np_utils.to_categorical(y_test, 10)
+
+    #  Build the model
+    model = Sequential()
+    model.add(Convolution2D(32, 3, 3, activation='relu', input_shape=(1,28,28), dim_ordering='th'))
+    model.add(Convolution2D(32, 3, 3, activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(10, activation='softmax'))
+
+    # Compile the model for use
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    # Training
+    print("******* Training: run 3 epochs... *******")
+    #model.fit(X_train, Y_train, batch_size=32, epochs=1, verbose=1)
+    model.fit(X_train, Y_train, batch_size=500, epochs=1, verbose=1, callbacks = [callbacks])
+
+    # Evaluation
+    print("******* Testing *******")
+    loss_and_metrics = model.evaluate(X_test, Y_test, verbose=1)
+    print("\ntest_result: {0}".format(loss_and_metrics))
+    #cakeras.callbacks.TensorBoard(log_dir="./logs", histogram_freq=0, batch_size=32,
+    #                            write_graph=True, write_grads=False, write_images=False,
+    #                            embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None)
+
 def main():
-    print("Modified1")
+    print("Modified2")
+
+    # Run keras model
+    keras_mnist_model()
+
     # You can try adding some more learning rates
     for learning_rate in [1E-3, 1E-4, 1E-5]:
 
