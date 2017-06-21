@@ -47,11 +47,12 @@ def main():
 
     # Training
     print("******* Training: run 10 epochs... *******")
-    model.fit(X_train, Y_train, batch_size=32, epochs=10, verbose=1)
+    model.fit(X_train, Y_train, batch_size=32, epochs=1, verbose=1)
 
     # Evaluation
     print("******* Testing *******")
     loss_and_metrics = model.evaluate(X_test, Y_test, verbose=1)
+    print("test_result: {0}".format(loss_and_metrics))
 
     return
 
