@@ -79,11 +79,7 @@ def cnn_model_fn(features, labels, mode):
 
     # Configure the Training Op (for TRAIN mode)
     if mode == learn.ModeKeys.TRAIN:
-        train_op = tf.contrib.layers.optimize_loss(
-                                                    loss=loss,
-                                                    global_step=tf.contrib.framework.get_global_step(),
-                                                    learning_rate=0.001,
-                                                    optimizer="SGD")
+        train_op = tf.contrib.layers.optimize_loss(loss=loss,global_step=tf.contrib.framework.get_global_step(), learning_rate=0.001, optimizer="SGD")
 
     # Generate Predictions
     predictions = {
@@ -94,7 +90,7 @@ def cnn_model_fn(features, labels, mode):
 
     model = model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=loss, train_op=train_op)
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = "2,3"
+    os.environ['CUDA_VISIBLE_DEVICES'] = "2"
     my_config = tf.ConfigProto()
     #my_config.gpu_options.per_process_gpu_memory_fraction = 0.5
     #my_config.gpu_options.allow_growth = True
@@ -106,7 +102,7 @@ def cnn_model_fn(features, labels, mode):
 
 
 def main(unused_argv):
-    print("New1")
+    print("New2")
     # Load training and eval data
     mnist = learn.datasets.load_dataset("mnist")
     train_data = mnist.train.images  # Returns np.array
@@ -122,7 +118,7 @@ def main(unused_argv):
     tensors_to_log = {"probabilities": "softmax_tensor"}
     logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=50)
     # Train the model
-    mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=5000, monitors=[logging_hook])
+    mnist_classifier.fit(x=train_data, y=train_labels, batch_size=100, steps=20000, monitors=[logging_hook])
     # Configure the accuracy metric for evaluation
     metrics = { "accuracy": learn.MetricSpec( metric_fn=tf.metrics.accuracy, prediction_key="classes"), }
     # Evaluate the model and print results
