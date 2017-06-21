@@ -47,7 +47,7 @@ def main():
 
     # Training
     print("******* Training: run 10 epochs... *******")
-    model.fit(X_train, Y_train, batch_size=32, epochs=1, verbose=1)
+    model.fit(X_train, Y_train, batch_size=32, epochs=10, verbose=1)
 
     # Evaluation
     print("******* Testing *******")
