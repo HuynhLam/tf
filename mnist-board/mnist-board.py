@@ -5,12 +5,11 @@ import tensorflow as tf
 import tensorflow.contrib.learn as learn
 import time
 
-#LOGDIR = "/tmp/mnist_tutorial/"
+# For embedding GUI
 LABELS = os.path.join(os.getcwd(), "labels_1024.tsv")
 SPRITES = os.path.join(os.getcwd(), "sprite_1024.png")
-### MNIST EMBEDDINGS ###
+# Load mnist datasets
 mnist = learn.datasets.mnist.read_data_sets("mnist", one_hot=True)
-#mnist = tf.contrib.learn.datasets.mnist.read_data_sets(train_dir=LOGDIR + "data", one_hot=True)
 
 
 def conv_layer(input, size_in, size_out, name="conv"):
@@ -92,7 +91,7 @@ def mnist_model(learning_rate, use_two_fc, use_two_conv, hparam):
     saver = tf.train.Saver()
 
     sess.run(tf.global_variables_initializer())
-    writer = tf.summary.FileWriter("./graph")
+    writer = tf.summary.FileWriter("graph/" + hparam)
     writer.add_graph(sess.graph)
 
     config = tf.contrib.tensorboard.plugins.projector.ProjectorConfig()
@@ -104,7 +103,6 @@ def mnist_model(learning_rate, use_two_fc, use_two_conv, hparam):
     embedding_config.sprite.single_image_dim.extend([28, 28])
     tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)
 
-    #for i in range(2001):
     for i in range(2001):
         batch = mnist.train.next_batch(100)
         if i % 5 == 0:
@@ -112,7 +110,7 @@ def mnist_model(learning_rate, use_two_fc, use_two_conv, hparam):
             writer.add_summary(s, i)
         if i % 500 == 0:
             sess.run(assignment, feed_dict={x: mnist.test.images[:1024], y: mnist.test.labels[:1024]})
-            saver.save(sess, os.path.join("./graph", "model.ckpt"), i)
+            saver.save(sess, os.path.join("graph/", "model.ckpt"), i)
         sess.run(train_step, feed_dict={x: batch[0], y: batch[1]})
 
 def make_hparam_string(learning_rate, use_two_fc, use_two_conv):
@@ -121,14 +119,13 @@ def make_hparam_string(learning_rate, use_two_fc, use_two_conv):
     return "lr_%.0E,%s,%s" % (learning_rate, conv_param, fc_param)
 
 def main():
-    print("Modified")
+    print("Modified1")
     # You can try adding some more learning rates
-    for learning_rate in [1E-3, 1E-4]:
-
+    for learning_rate in [1E-3, 1E-4, 1E-5]:
 
         # Include "False" as a value to try different model architectures
         for use_two_fc in [True]:
-            for use_two_conv in [False, True]:
+            for use_two_conv in [True, False]:
                 start_time_begin = time.time()
                 # Construct a hyperparameter string for each one (example: "lr_1E-3,fc=2,conv=2")
                 hparam = make_hparam_string(learning_rate, use_two_fc, use_two_conv)
@@ -136,8 +133,6 @@ def main():
                 # Actually run with the new settings
                 mnist_model(learning_rate, use_two_fc, use_two_conv, hparam)
                 print("***** Training time {0:.2f} s *****".format(time.time()-start_time_begin))
-
-
 
     print("Done ! Lets see the board.")
 
