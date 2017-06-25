@@ -24,7 +24,7 @@ SPRITES = os.path.join(os.getcwd(), "sprite_1024.png")
 mnist_data = learn.datasets.mnist.read_data_sets("mnist", one_hot=True)
 
 # callbacks
-callbacks = keras.callbacks.TensorBoard(log_dir='./graph1/keras,conv=2,fc=2', write_graph=True)
+callbacks = keras.callbacks.TensorBoard(log_dir='./graph1/kr,conv=2,fc=2', write_graph=True)
 
 
 def conv_layer(input, size_in, size_out, name="conv"):
@@ -178,10 +178,9 @@ def main():
     # Run keras model
     keras_mnist_model()
 
-    # You can try adding some more learning rates
     for learning_rate in [1E-3, 1E-4, 1E-5]:
 
-        # Include "False" as a value to try different model architectures
+        # Trial-error modul architectures
         for use_two_fc in [True]:
             for use_two_conv in [True, False]:
                 start_time_begin = time.time()
