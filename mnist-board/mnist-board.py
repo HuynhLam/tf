@@ -15,7 +15,7 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Convolution2D, MaxPooling2D
 
 # run on 'gpu:2'
-os.environ['CUDA_VISIBLE_DEVICES'] = "2"
+os.environ['CUDA_VISIBLE_DEVICES'] = "3,5,6"
 
 # For embedding GUI
 LABELS = os.path.join(os.getcwd(), "labels_1024.tsv")
@@ -116,7 +116,7 @@ def mnist_model(learning_rate, use_two_fc, use_two_conv, hparam):
     embedding_config.sprite.single_image_dim.extend([28, 28])
     tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)
 
-    for i in range(300001):
+    for i in range(3001):
         batch = mnist_data.train.next_batch(32)
         if i % 5 == 0:
             [train_accuracy, s] = sess.run([accuracy, summ], feed_dict={x: batch[0], y: batch[1]})
@@ -163,14 +163,14 @@ def keras_mnist_model():
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     # Training
-    print("******* Training: run 5 epochs... *******")
-    model.fit(X_train, Y_train, batch_size=32, epochs=5, verbose=1, callbacks = [callbacks])
+    print("******* Training: run 10 epochs... *******")
+    #model.fit(X_train, Y_train, batch_size=32, epochs=1, verbose=1)
+    model.fit(X_train, Y_train, batch_size=32, epochs=10, verbose=1, callbacks = [callbacks])
 
     # Evaluation
     print("******* Testing *******")
     loss_and_metrics = model.evaluate(X_test, Y_test, verbose=1)
     print("\ntest_result: {0}".format(loss_and_metrics))
-
 
 def main():
     print("Modified2")
