@@ -13,6 +13,9 @@ import tensorflow as tf
 
 from tensorflow.examples.tutorials.mnist import input_data
 
+# Setup GPU
+os.environ['CUDA_VISIBLE_DEVICES'] = "7"
+
 def main():
     starting_time = time.time()
 
