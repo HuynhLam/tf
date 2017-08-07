@@ -14,15 +14,16 @@ df = pd.read_excel('mlr02.xls')
 X = df.as_matrix()
 
 # see the data
-plt.scatter(X[:,1], X[:,0])
-plt.show()
+#plt.scatter(X[:,1], X[:,0])
+#plt.show()
 
-plt.scatter(X[:,2], X[:,0])
-plt.show()
+#plt.scatter(X[:,2], X[:,0])
+#plt.show()
 
 # group data
 #df["ones"] = 1
-df['ones'] = np.random.rand(11)
+#print("Shape of df: {0} {1} {2}".format(df.shape, df.shape[0], type(df.shape[1])))
+df['ones'] = 4*np.random.rand(df.shape[0])
 df.info()
 print(df.head())
 Y = df["X1"]
