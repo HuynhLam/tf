@@ -1,2 +1,0 @@
-model_checkpoint_path: "./cnn_cccdd_30k"
-all_model_checkpoint_paths: "./cnn_cccdd_30k"
