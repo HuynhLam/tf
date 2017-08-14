@@ -9,7 +9,8 @@ from __future__ import print_function
 
 import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
+import os
+#import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -17,6 +18,8 @@ from tensorflow.contrib import learn
 from tensorflow.contrib.learn.python.learn.estimators import model_fn as model_fn_lib
 
 tf.logging.set_verbosity(tf.logging.INFO)
+
+os.environ['CUDA_VISIBLE_DEVICES'] = "6,7"
 
 def load_data():
     data = input_data.read_data_sets("mnist", one_hot=True)
