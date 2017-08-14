@@ -120,7 +120,7 @@ def main():
     mnist_classifier.fit(x=train_data,
                         y=train_labels,
                         batch_size=100,
-                        steps=1000,
+                        steps=20000,
                         monitors=[logging_hook])
 
     # Configure the accuracy metric for evaluation
