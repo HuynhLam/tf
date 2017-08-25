@@ -26,18 +26,27 @@ def main():
 
     # Define the model
     X = tf.placeholder(dtype=tf.float32, shape=[None, 784], name="input")
+
+    # reshape 4-D tensor for feedforward
     input_layer = tf.reshape(X, [-1, 28, 28, 1], name="input_layer")
-
+    # Convolutional #11
     conv1 = tf.layers.conv2d(inputs=input_layer, filters=32, kernel_size=[5,5], padding="same", activation=tf.nn.relu, name="conv_layer_1")
-    pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2,2], strides=2)
+    # Max pooling #1
+    pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2,2], strides=2, name="max_pooling_1")
+    # Convolutional #2
     conv2 = tf.layers.conv2d(inputs=pool1, filters=64, kernel_size=[5,5], padding="same", activation=tf.nn.relu, name="conv_layer_2")
-    pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2,2], strides=2)
+    # Max pooling #2
+    pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2,2], strides=2, name="max_pooling_2")
 
+    # Flatten to 2-D tensor before feed to FC layers
     conv1_flatten = tf.reshape(pool2, shape=[-1, 7 * 7 * 64], name="flatten_before_dense")
+    # FC1
     dense = tf.layers.dense(inputs=conv1_flatten, units=1024, activation=tf.nn.relu, name="first_dense")
-    #dense1 = tf.layers.dense(inputs=dense, units=1024, activation=tf.nn.relu, name="second_dense")
-    dropout1 = tf.layers.dropout(inputs=dense, rate=my_params.drop_rate, name="dropout1")
-
+    # FC2
+    dense1 = tf.layers.dense(inputs=dense, units=1024, activation=tf.nn.relu, name="second_dense")
+    # Apply dropout
+    dropout1 = tf.layers.dropout(inputs=dense1, rate=my_params.drop_rate, name="dropout1")
+    # FC3
     Y = tf.layers.dense(inputs=dropout1, units=10, name="last_dense")
     print("Yes, finished calculate the last dense!!")
 
@@ -67,6 +76,7 @@ def main():
         plt.legend()
         plt.draw()
         plt.pause(0.001)
+
 
     # Save the meta-graph and trained weights
     # Check if did the folder exist ? If not, create it
