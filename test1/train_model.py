@@ -20,6 +20,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 import hyper_params as my_params
 
+os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+
 def main():
     # Load the MNIST data
     mnist = input_data.read_data_sets("mnist", one_hot=True)
@@ -30,25 +32,58 @@ def main():
     # reshape 4-D tensor for feedforward
     input_layer = tf.reshape(X, [-1, 28, 28, 1], name="input_layer")
     # Convolutional #11
-    conv1 = tf.layers.conv2d(inputs=input_layer, filters=32, kernel_size=[5,5], padding="same", activation=tf.nn.relu, name="conv_layer_1")
+    conv1 = tf.layers.conv2d(
+            inputs=input_layer,
+            filters=32,
+            kernel_size=[5, 5],
+            padding="same",
+            activation=tf.nn.relu,
+            name="conv_layer_1")
     # Max pooling #1
-    pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2,2], strides=2, name="max_pooling_1")
+    pool1 = tf.layers.max_pooling2d(
+            inputs=conv1,
+            pool_size=[2, 2],
+            strides=2,
+            name="max_pooling_1")
     # Convolutional #2
-    conv2 = tf.layers.conv2d(inputs=pool1, filters=64, kernel_size=[5,5], padding="same", activation=tf.nn.relu, name="conv_layer_2")
+    conv2 = tf.layers.conv2d(
+            inputs=pool1,
+            filters=64,
+            kernel_size=[5, 5],
+            padding="same",
+            activation=tf.nn.relu,
+            name="conv_layer_2")
     # Max pooling #2
-    pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2,2], strides=2, name="max_pooling_2")
+    pool2 = tf.layers.max_pooling2d(
+            inputs=conv2,
+            pool_size=[2, 2],
+            strides=2,
+            name="max_pooling_2")
 
     # Flatten to 2-D tensor before feed to FC layers
     conv1_flatten = tf.reshape(pool2, shape=[-1, 7 * 7 * 64], name="flatten_before_dense")
     # FC1
-    dense = tf.layers.dense(inputs=conv1_flatten, units=1024, activation=tf.nn.relu, name="first_dense")
-    # FC2
-    dense1 = tf.layers.dense(inputs=dense, units=1024, activation=tf.nn.relu, name="second_dense")
+    dense = tf.layers.dense(
+            inputs=conv1_flatten,
+            units=64,
+            activation=tf.nn.relu,
+            name="first_dense")
+    # # FC2
+    # dense1 = tf.layers.dense(
+    #         inputs=dense,
+    #         units=1024,
+    #         activation=tf.nn.relu,
+    #         name="second_dense")
     # Apply dropout
-    dropout1 = tf.layers.dropout(inputs=dense1, rate=my_params.drop_rate, name="dropout1")
+    dropout1 = tf.layers.dropout(
+            inputs=dense,
+            rate=my_params.drop_rate,
+            name="dropout1")
     # FC3
-    Y = tf.layers.dense(inputs=dropout1, units=10, name="last_dense")
-    print("Yes, finished calculate the last dense!!")
+    Y = tf.layers.dense(
+            inputs=dropout1,
+            units=10,
+            name="last_dense")
 
     Y_labels = tf.placeholder(tf.float32, shape=[None, 10], name="y_labels")
 
@@ -58,24 +93,26 @@ def main():
     train_step = opt.minimize(xent)
 
     # Define session and initialize variables
-    sess = tf.Session()
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
     sess.run(tf.global_variables_initializer())
 
     # Training
     losts = []
     # Using plt.ion to interactively plot the chart to visualize how the loss doing
     # Useful when doing in small iteration ~1000
-    plt.ion()
+    # plt.ion()
     for i in range(my_params.steps+1):
         [batch_x, batch_y] = mnist.train.next_batch(100)
         [loss, _] = sess.run([xent, train_step], feed_dict={X: batch_x, Y_labels: batch_y})
-        print("iter: {0}, l = {1}".format(i, loss))
+        print("i: {0}, l = {1}".format(i, loss))
         losts.append(loss)
-        plt.gca().cla() # optionally clear axes
-        plt.plot(np.linspace(0, i, i+1), losts, label="xent")
-        plt.legend()
-        plt.draw()
-        plt.pause(0.001)
+        # plt.gca().cla() # optionally clear axes
+        # plt.plot(np.linspace(0, i, i+1), losts, label="val")
+        # plt.legend()
+        # plt.draw()
+        # plt.pause(0.001)
 
 
     # Save the meta-graph and trained weights
@@ -89,14 +126,12 @@ def main():
     # saver.save(sess, save_path, global_step=my_params.steps)
 
     # Testing
-    print("********* This is testing !!!")
     correct_prediction = tf.equal(tf.argmax(Y, 1), tf.argmax(Y_labels, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, dtype=tf.float32))
     print(sess.run(accuracy, feed_dict={X: mnist.test.images, Y_labels: mnist.test.labels}))
-    print("********* Finished testing !!!")
 
     # Plot the loss chart and see how it goes
-    plt.plot(np.linspace(0, my_params.steps, my_params.steps+1), losts, label="final_xent")
+    plt.plot(np.linspace(0, my_params.steps, my_params.steps+1), losts, label="test")
     plt.legend()
     plt.show(block=True)
 
