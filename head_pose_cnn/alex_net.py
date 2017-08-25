@@ -35,13 +35,13 @@ class AlexNet(object):
     def create(self):
         """Create the network graph."""
         # 1st Layer: Conv (w ReLu) -> Pool -> Lrn
-        conv1 = conv(self.X, 11, 11, 96, 4, 4, padding='VALID', name='conv1')
-        pool1 = max_pool(conv1, 3, 3, 2, 2, padding='VALID', name='pool1')
+        conv1 = conv(self.X, 11, 11, 96, 4, 4, padding='SAME', name='conv1')
+        pool1 = max_pool(conv1, 3, 3, 2, 2, padding='SAME', name='pool1')
         norm1 = lrn(pool1, 2, 2e-05, 0.75, name='norm1')
 
         # 2nd Layer: Conv (w ReLu) -> Pool -> Lrn with 2 groups
         conv2 = conv(norm1, 5, 5, 256, 1, 1, groups=2, name='conv2')
-        pool2 = max_pool(conv2, 3, 3, 2, 2, padding='VALID', name='pool2')
+        pool2 = max_pool(conv2, 3, 3, 2, 2, padding='SAME', name='pool2')
         norm2 = lrn(pool2, 2, 2e-05, 0.75, name='norm2')
 
         # 3rd Layer: Conv (w ReLu)
@@ -52,7 +52,7 @@ class AlexNet(object):
 
         # 5th Layer: Conv (w ReLu) -> Pool splitted into two groups
         conv5 = conv(conv4, 3, 3, 256, 1, 1, groups=2, name='conv5')
-        pool5 = max_pool(conv5, 3, 3, 2, 2, padding='VALID', name='pool5')
+        pool5 = max_pool(conv5, 3, 3, 2, 2, padding='SAME', name='pool5')
 
         # 6th Layer: Flatten -> FC (w ReLu) -> Dropout
         flattened = tf.reshape(pool5, [-1, 6*6*256])
@@ -64,7 +64,7 @@ class AlexNet(object):
         dropout7 = dropout(fc7, self.KEEP_PROB)
 
         # 8th Layer: FC and return unscaled activations
-        self.fc8 = fc(dropout7, 4096, self.NUM_CLASSES, relu=False, name='fc8')
+        self.fc8 = fc(dropout7, 6, self.NUM_CLASSES, relu=False, name='fc8')
 
     def load_initial_weights(self, session):
         """Load weights from file into network.
