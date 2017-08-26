@@ -1,5 +1,6 @@
 '''
 Lam Huynh, Oulu 2017
+
 Hyper parameters for traing and perform prediction
 '''
 
