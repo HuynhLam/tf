@@ -1,2 +1,2 @@
-model_checkpoint_path: "mnist_lr=0.5-1000"
-all_model_checkpoint_paths: "mnist_lr=0.5-1000"
+model_checkpoint_path: "mnist_lr=0.5-100"
+all_model_checkpoint_paths: "mnist_lr=0.5-100"

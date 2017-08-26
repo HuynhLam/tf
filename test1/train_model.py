@@ -13,7 +13,7 @@ from __future__ import division
 
 import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import os
 
 from tensorflow.examples.tutorials.mnist import input_data
@@ -21,7 +21,7 @@ from timer import Timer
 
 import hyper_params as my_params
 
-os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 def main():
     # Load the MNIST data
@@ -97,12 +97,12 @@ def main():
     # Using plt.ion to interactively plot the chart to visualize how the loss doing
     # Useful when doing in small iteration ~1000
     # plt.ion()
-    losts = []
+    # losts = []
     for i in range(my_params.steps+1):
         [batch_x, batch_y] = mnist.train.next_batch(100)
         [loss, _] = sess.run([xent, train_step], feed_dict={X: batch_x, Y_labels: batch_y})
         print("i: {0}, l = {1}".format(i, loss))
-        losts.append(loss)
+        # losts.append(loss)
         # plt.gca().cla() # optionally clear axes
         # plt.plot(np.linspace(0, i, i+1), losts, label="val")
         # plt.legend()
@@ -125,9 +125,9 @@ def main():
     saver.save(sess, save_path, global_step=my_params.steps)
 
     # Plot the loss chart and see how it goes
-    plt.plot(np.linspace(0, my_params.steps, my_params.steps+1), losts, label="test")
-    plt.legend()
-    plt.show(block=True)
+    # plt.plot(np.linspace(0, my_params.steps, my_params.steps+1), losts, label="test")
+    # plt.legend()
+    # plt.show(block=True)
 
 if(__name__ == "__main__"):
     with Timer() as tm:

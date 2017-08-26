@@ -53,9 +53,8 @@ def main():
         # Now we perform prediction using the imported model
         # correct_prediction = tf.equal(tf.argmax(Y, 1), tf.argmax(Y_labels, 1))
         # accuracy = tf.reduce_mean(tf.cast(correct_prediction, dtype=tf.float32))
-        for i in range(100):
-            [batch_x, batch_y] = mnist.test.next_batch(1000)
-            print(sess.run(accuracy, feed_dict={X: batch_x, Y_labels: batch_y}))
+        print(sess.run(accuracy, feed_dict={X: mnist.test.images, Y_labels: mnist.test.labels}))
+
 
 if(__name__ == "__main__"):
     with Timer() as tm:
