@@ -18,6 +18,7 @@ import os
 
 from tensorflow.examples.tutorials.mnist import input_data
 from timer import Timer
+from tensorflow.python.training import saver as saver_lib
 
 import hyper_params as my_params
 
@@ -110,8 +111,13 @@ def main():
         # plt.pause(0.001)
 
     # Testing
-    correct_prediction = tf.equal(tf.argmax(Y, 1), tf.argmax(Y_labels, 1), name="correct_prediction")
+    prediction = tf.argmax(Y, axis=1, name="prediction")
+    correct_prediction = tf.equal(tf.argmax(Y, axis=1), tf.argmax(Y_labels, axis=1), name="correct_prediction")
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, dtype=tf.float32), name="accuracy")
+    for i in range(10):
+       [batch_x, _] = mnist.test.next_batch(1)
+       print("Number: {0} : {1}".format(int(sess.run(prediction, feed_dict={X: batch_x})), sess.run(accuracy, feed_dict={X: batch_x, Y_labels: batch_y})))
+
     print(sess.run(accuracy, feed_dict={X: mnist.test.images, Y_labels: mnist.test.labels}))
 
     # Save the meta-graph and trained weights
@@ -119,10 +125,14 @@ def main():
     # os.path.isdir return True if path is an existing directory
     if not os.path.isdir(my_params.checkpoint_path):
         os.mkdir(my_params.checkpoint_path)
+
     saver = tf.train.Saver()
-    save_path = my_params.checkpoint_path + '/mnist_lr=' + str(my_params.lr)
-    print("*** save file : ", save_path+"-"+str(my_params.steps))
-    saver.save(sess, save_path, global_step=my_params.steps)
+    saver.save(sess, my_params.checkpoint_path + "/mnist_model.ckpt")
+    # save_path = my_params.checkpoint_path + '/mnist_lr=' + str(my_params.lr)
+    # print("*** save file : ", save_path+"-"+str(my_params.steps))
+    # saver.save(sess, save_path, global_step=my_params.steps)
+
+    tf.train.write_graph(sess.graph_def, my_params.checkpoint_path, 'mnist_model.pb') #, as_text=False)
 
     # Plot the loss chart and see how it goes
     # plt.plot(np.linspace(0, my_params.steps, my_params.steps+1), losts, label="test")

@@ -12,6 +12,6 @@ import numpy as np
 
 checkpoint_path = './checkpoint'
 
-drop_rate = 0.4
-steps = 21000
+drop_rate = 0.3
+steps = 2000
 lr = 0.5
